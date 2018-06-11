@@ -31,7 +31,7 @@ test:
 
 lint:
 	@echo "$(OK_COLOR)==> Linting... $(NO_COLOR)"
-	@golint $(allpackages)
+	@golint `go list ./... | grep -v /vendor/`
 
 clean:
 	@echo "$(OK_COLOR)==> Cleaning project$(NO_COLOR)"
