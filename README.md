@@ -54,7 +54,7 @@ specs:
       type: shell
 ```
 
-Boshspecs will look in current working directory `test/simpleTest` for all *.sh files and execute them against all instances groups in deployment cf
+Boshspecs will look in current working directory `test/simpleTest/` for all *.sh files and execute them against all instances groups in deployment cf
 
 running 
 
