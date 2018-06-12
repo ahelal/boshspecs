@@ -1,4 +1,4 @@
-package gossVerifier
+package gossverifier
 
 import (
 	"bytes"

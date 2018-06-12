@@ -1,4 +1,4 @@
-package gossVerifier
+package gossverifier
 
 const gossRunScript = `{{ .TvParams.RunScriptHelper }}
 

@@ -1,4 +1,4 @@
-package shellVerifier
+package shellverifier
 
 import (
 	"bytes"

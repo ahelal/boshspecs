@@ -5,9 +5,9 @@ import (
 	"strings"
 
 	"github.com/ahelal/boshspecs/testverifiers"
-	gossVerifier "github.com/ahelal/boshspecs/testverifiers/gossVerifier"
+	gossVerifier "github.com/ahelal/boshspecs/testverifiers/gossverifier"
 	inSpecVerifier "github.com/ahelal/boshspecs/testverifiers/inspecverifier"
-	shellVerifier "github.com/ahelal/boshspecs/testverifiers/shellVerifier"
+	shellVerifier "github.com/ahelal/boshspecs/testverifiers/shellverifier"
 )
 
 type assetsType []map[string]string

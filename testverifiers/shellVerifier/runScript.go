@@ -1,4 +1,4 @@
-package shellVerifier
+package shellverifier
 
 const shellRunScriptTemplate = `{{ .TvParams.RunScriptHelper }}
 testShellGlob="${testDirPath}/*.sh"
