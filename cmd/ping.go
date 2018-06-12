@@ -11,7 +11,7 @@ import (
 	"github.com/urfave/cli"
 )
 
-// NewVerifyCommand do a bdv Delete
+//NewPingCommand a ping command
 func NewPingCommand() cli.Command {
 	return cli.Command{
 		Name:    "ping",

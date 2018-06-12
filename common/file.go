@@ -111,7 +111,7 @@ func IsDir(dirPath string) (bool, error) {
 	return false, nil
 }
 
-//CopyDir
+//CopyToDir src path to dest path
 func CopyToDir(src string, destDir string) error {
 	log.Debugf("Copy src '%s' to '%s'", src, destDir)
 	if err := otiai.Copy(src, destDir); err != nil {

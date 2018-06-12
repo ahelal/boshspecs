@@ -8,7 +8,7 @@ import (
 	"github.com/urfave/cli"
 )
 
-// NewListCommand do a bdv Delete
+// NewListCommand do a list command
 func NewListCommand() cli.Command {
 	return cli.Command{
 		Name:    "list",

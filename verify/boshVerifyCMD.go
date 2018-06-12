@@ -7,13 +7,6 @@ import (
 	"github.com/ahelal/boshspecs/runner"
 )
 
-// type BoshCMD struct {
-// 	Deployment     string
-// 	InstanceGroup  string
-// 	InstancesIndex []string
-// 	Command        string
-// }
-
 func verifyboshSSHCommand(bcmd runner.BoshCMD, stdoutBuf, stderrBuf *bytes.Buffer, stream bool) error {
 	err := runner.BoshSSHCommand(bcmd, stdoutBuf, stderrBuf, stream)
 	if err != nil {

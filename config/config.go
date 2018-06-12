@@ -1,6 +1,6 @@
 package config
 
-// Config represents the config read from file typically .bdv.yml
+// Config represents the config read from file
 type Config struct {
 	ConfBosh          []CBosh       `yaml:"bosh"`
 	ConfSpecs         []CSpec       `yaml:"specs"`
@@ -43,7 +43,4 @@ type CSpec struct {
 	Sudo      bool             `yaml:"sudo"`
 	Filters   CInstanceFilters `yaml:"filters"`
 	Params    interface{}      `yaml:"params"`
-}
-
-type ExtraConfig struct {
 }

@@ -8,7 +8,7 @@ import (
 	"github.com/urfave/cli"
 )
 
-// NewVerifyCommand do a bdv Delete
+// NewVerifyCommand do a verify command
 func NewVerifyCommand() cli.Command {
 	return cli.Command{
 		Name:    "verify",

@@ -1,6 +1,6 @@
 package config
 
-// Config represents the config read from file typically .bdv.yml
+//MergedConfig represents one merged configuration
 type MergedConfig struct {
 	ConfBosh         CBosh
 	ConfigDeployment CDeployment

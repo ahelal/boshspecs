@@ -6,6 +6,7 @@ import (
 	"text/template"
 )
 
+//RunScriptHelperTemplate entry point to bootstrap tests
 const RunScriptHelperTemplate = `#!/usr/bin/env sh
 set -eu
 
@@ -56,6 +57,7 @@ fi
 
 `
 
+//RenderRunScriptHelperTemplate render the helper script
 func RenderRunScriptHelperTemplate(tvParams *TestVerifierParams) (string, error) {
 	var renderedTemplate bytes.Buffer
 

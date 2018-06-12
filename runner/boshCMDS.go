@@ -7,6 +7,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+//BoshCMD struct represent a generic boshcommand
 type BoshCMD struct {
 	BoshBin        string
 	Deployment     string
@@ -15,6 +16,7 @@ type BoshCMD struct {
 	Command        string
 }
 
+//BoshSCP struct represent a bosh scp command
 type BoshSCP struct {
 	BoshBin        string
 	Deployment     string

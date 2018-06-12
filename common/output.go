@@ -9,6 +9,7 @@ import (
 	"github.com/savaki/jq"
 )
 
+//BoshJSONOutput represents a bosh outpit with --env json
 type BoshJSONOutput struct {
 	Tables []struct {
 		Content string `json:"Content"`
@@ -45,10 +46,12 @@ func ParseJSON(jsonString string, query string) (string, error) {
 	return string(value), nil
 }
 
+//InfoPrint print an info message
 func InfoPrint(info string) {
 	fmt.Println("I>", info)
 }
 
+//Info print info with a prefix
 func Info(prefix string, info string) {
 	fmt.Println(prefix, info)
 }

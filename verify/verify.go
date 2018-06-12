@@ -94,11 +94,6 @@ func initialVerifierSteps(mConfig config.MergedConfig) (testverifiers.TestVerifi
 	return tv, tvParams, nil
 }
 
-func getInstances() {
-
-	// err = runner.LocalExec(v, "", "", false, false, &stdoutBuf, &stderrBuf)
-}
-
 //expandTestPath
 func expandTestPath(mConfig config.MergedConfig) (string, error) {
 	trimmedPath := strings.Trim(mConfig.ConfSpec.Path, " ")
