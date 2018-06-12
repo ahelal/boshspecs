@@ -13,8 +13,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-//TODO: Need to export env variables about Instance info example deployment, bosh env, CPI info like takes vm name
-
 func verifierLocal(mConfig config.MergedConfig, tv testverifiers.TestVerifier, tvParams testverifiers.TestVerifierParams) error {
 	var stdoutBuf, stderrBuf bytes.Buffer
 

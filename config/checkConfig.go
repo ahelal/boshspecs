@@ -22,7 +22,6 @@ func checkConfig(specConfig *Config) error {
 		return fmt.Errorf("config specs %s", err)
 	}
 
-	// TODO Director name must be unique
 	return nil
 }
 
