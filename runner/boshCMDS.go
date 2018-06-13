@@ -35,7 +35,7 @@ func BoshSCPCommand(rscp BoshCMD, stdoutBuf *bytes.Buffer, stderrBuf *bytes.Buff
 func BoshSSHCommand(bcmd BoshCMD, stdoutBuf *bytes.Buffer, stderrBuf *bytes.Buffer, stream bool) error {
 	for _, instance := range defaultFilterInstance(bcmd.InstancesIndex) {
 		cmd := fmt.Sprintf("-d %s ssh %s/%s -c", bcmd.Deployment, bcmd.InstanceGroup, instance)
-		if err := RawBoshCommand(cmd, bcmd.Command, bcmd, stdoutBuf, stderrBuf, false); err != nil {
+		if err := RawBoshCommand(cmd, bcmd.Command, bcmd, stdoutBuf, stderrBuf, stream); err != nil {
 			return err
 		}
 	}
@@ -45,7 +45,7 @@ func BoshSSHCommand(bcmd BoshCMD, stdoutBuf *bytes.Buffer, stderrBuf *bytes.Buff
 // BoshIntCommand Execute a command on a deployed instance
 func BoshIntCommand(bcmd BoshCMD, stdoutBuf *bytes.Buffer, stderrBuf *bytes.Buffer, stream bool) error {
 	cmd := fmt.Sprintf("-d %s int %s", bcmd.Deployment, bcmd.Command)
-	if err := RawBoshCommand(cmd, "", bcmd, stdoutBuf, stderrBuf, false); err != nil {
+	if err := RawBoshCommand(cmd, "", bcmd, stdoutBuf, stderrBuf, stream); err != nil {
 		return err
 	}
 	return nil
@@ -54,7 +54,7 @@ func BoshIntCommand(bcmd BoshCMD, stdoutBuf *bytes.Buffer, stderrBuf *bytes.Buff
 // BoshInstancesCommand run bosh instances
 func BoshInstancesCommand(bcmd BoshCMD, stdoutBuf *bytes.Buffer, stderrBuf *bytes.Buffer, stream bool) error {
 	cmd := fmt.Sprintf("instances -d %s --json", bcmd.Deployment)
-	if err := RawBoshCommand(cmd, "", bcmd, stdoutBuf, stderrBuf, false); err != nil {
+	if err := RawBoshCommand(cmd, "", bcmd, stdoutBuf, stderrBuf, stream); err != nil {
 		return err
 	}
 	return nil
