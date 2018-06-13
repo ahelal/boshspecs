@@ -29,7 +29,7 @@ func Verify(mConfig config.MergedConfig, verbose bool, noColor bool) error {
 	tvParams.NoColor = noColor
 	// Check if we have no filters on instance groups
 	if len(mConfig.ConfSpec.Filters.InstanceGroup) == 0 {
-		instanceGroups, err = instaceGroups(mConfig)
+		instanceGroups, err = getInstanceGroups(mConfig)
 		if err != nil {
 			return err
 		}
