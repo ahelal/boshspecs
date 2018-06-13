@@ -1,5 +1,7 @@
 # BoshSpecs
 
+[![Build Status](https://travis-ci.org/ahelal/boshspecs.svg?branch=master)](https://travis-ci.org/ahelal/boshspecs)
+
 **WARNING** *this is a POC, miles away to be production ready.*
 
 BoshSpecs is go CLI tool that can run various testing frameworks (InSpec, GOSS, BATS, ...) targeting one or many bosh directors with deployed instances. 

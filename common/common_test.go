@@ -15,7 +15,7 @@ var _ = Describe("common", func() {
 	Describe("Downloadfile ", func() {
 		Context("when URL is invalid", func() {
 			It("return errors", func() {
-				err := DownloadFromURL("https://api.github.com/unkown", "/tmp/Xxx.txt")
+				err := DownloadFromURL("https://google.com/asdasdasd", "/tmp/Xxx.txt")
 				Expect(err).To(HaveOccurred())
 				Expect(err.Error()).To(ContainSubstring("Not Found"))
 			})

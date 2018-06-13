@@ -18,7 +18,8 @@ goDep:
 deps:
 	@echo "$(OK_COLOR)==> Installing dependencies$(NO_COLOR)"
 	@go get -u github.com/golang/dep/cmd/dep
-	@go get -u github.com/golang/lint/golint
+	@go get -u github.com/onsi/ginkgo
+# @go get -u github.com/golang/lint/golint
 	@dep ensure
 
 build:
