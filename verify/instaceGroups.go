@@ -16,7 +16,7 @@ func instaceGroups(mConfig config.MergedConfig) ([]string, error) {
 	var list []string
 
 	set := make(map[string]bool)
-	remoteCMD := runner.BoshCMD{Deployment: mConfig.ConfigDeployment.Name}
+	remoteCMD := runner.BoshCMD{Bosh: mConfig.ConfBosh, Deployment: mConfig.ConfigDeployment.Name}
 	err := runner.BoshInstancesCommand(remoteCMD, &stdoutBuf, &stderrBuf, false)
 	if err != nil {
 		return nil, err

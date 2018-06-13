@@ -56,13 +56,13 @@ func verifierRemote(mConfig config.MergedConfig, tv testverifiers.TestVerifier, 
 	//defer os.RemoveAll(tvParams.TmpDir)
 	mConfig.ConfSpec.Filters.Instances = []string{"0"}
 	log.Debugf("Remove,create remote dir %s and set permission", remoteTestPath)
-	remoteCMD := runner.BoshCMD{Deployment: mConfig.ConfigDeployment.Name, InstanceGroup: mConfig.ConfSpec.Filters.InstanceGroup, InstancesIndex: mConfig.ConfSpec.Filters.Instances, Command: remoteInitCmd()}
+	remoteCMD := runner.BoshCMD{Bosh: mConfig.ConfBosh, Deployment: mConfig.ConfigDeployment.Name, InstanceGroup: mConfig.ConfSpec.Filters.InstanceGroup, InstancesIndex: mConfig.ConfSpec.Filters.Instances, Command: remoteInitCmd()}
 	if err := verifyboshSSHCommand(remoteCMD, &stdoutBuf, &stderrBuf, false); err != nil {
 		return err
 	}
 
 	log.Debugf("Uploading tests and control script")
-	rscp := runner.BoshSCP{Deployment: mConfig.ConfigDeployment.Name, InstanceGroup: mConfig.ConfSpec.Filters.InstanceGroup, InstancesIndex: mConfig.ConfSpec.Filters.Instances, Source: tarGzPath, Dest: remoteTestPath}
+	rscp := runner.BoshCMD{Bosh: mConfig.ConfBosh, Deployment: mConfig.ConfigDeployment.Name, InstanceGroup: mConfig.ConfSpec.Filters.InstanceGroup, InstancesIndex: mConfig.ConfSpec.Filters.Instances, Source: tarGzPath, Dest: remoteTestPath}
 	if err := verifyboshSCPCommand(rscp, &stdoutBuf, &stderrBuf); err != nil {
 		fmt.Println(stdoutBuf.String(), stderrBuf.String())
 		return err

@@ -31,12 +31,12 @@ func Verify(mConfig config.MergedConfig, verbose bool, noColor bool) error {
 	if len(mConfig.ConfSpec.Filters.InstanceGroup) == 0 {
 		instanceGroups, err = instaceGroups(mConfig)
 		if err != nil {
-			return nil
+			return err
 		}
 		for _, instanceGroup := range instanceGroups {
 			mConfig.ConfSpec.Filters.InstanceGroup = instanceGroup
 			if err := runVerify(mConfig, tv, tvParams); err != nil {
-				return nil
+				return err
 			}
 		}
 		return nil

@@ -27,7 +27,7 @@ func LocalExec(commandStr string, commandArgs string, extraEnv string, streamStd
 	var errStdout, errStderr error
 	var cmd *exec.Cmd
 	var stdout, stderr io.Writer
-	log.Debugf("localExec command issued: %s %s", commandStr, commandArgs)
+	log.Debugf("command issued: '%s %s'", commandStr, commandArgs)
 	command := strings.Split(commandStr, " ")
 	// Command Args will not be split by space
 	if len(commandArgs) >= 1 {
@@ -77,7 +77,7 @@ func LocalExec(commandStr string, commandArgs string, extraEnv string, streamStd
 		if exiterr, ok := err.(*exec.ExitError); ok {
 			// The program has exited with an exit code != 0
 			if status, ok := exiterr.Sys().(syscall.WaitStatus); ok {
-				msg := fmt.Sprintf("LocalExec exited with a non zero code '%d'. %s", status.ExitStatus(), err.Error())
+				msg := fmt.Sprintf("command exited with a non zero code '%d'. %s", status.ExitStatus(), err.Error())
 				log.Warnf(msg)
 				return fmt.Errorf(msg)
 			}

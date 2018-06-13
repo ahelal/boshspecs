@@ -19,7 +19,7 @@ func verifyboshSSHCommand(bcmd runner.BoshCMD, stdoutBuf, stderrBuf *bytes.Buffe
 	return nil
 }
 
-func verifyboshSCPCommand(bscp runner.BoshSCP, stdoutBuf, stderrBuf *bytes.Buffer) error {
+func verifyboshSCPCommand(bscp runner.BoshCMD, stdoutBuf, stderrBuf *bytes.Buffer) error {
 	err := runner.BoshSCPCommand(bscp, stdoutBuf, stderrBuf)
 	if err != nil {
 		fmt.Println(stdoutBuf.String(), stderrBuf.String())

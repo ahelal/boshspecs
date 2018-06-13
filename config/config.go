@@ -22,10 +22,6 @@ type CBosh struct {
 	Client       string `yaml:"client"`
 	ClientSecret string `yaml:"client-secret"`
 	CaCert       string `yaml:"ca-cert"`
-	SSHHost      string `yaml:"ssh-host"`
-	SSHUser      string `yaml:"ssh-user"`
-	SSHPass      string `yaml:"ssh-pass"`
-	SSHKey       string `yaml:"ssh-key"`
 }
 
 // CInstanceFilters filters where to run instances
