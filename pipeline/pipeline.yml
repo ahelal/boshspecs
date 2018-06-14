@@ -24,7 +24,7 @@ jobs:
       input_mapping:
         boshspecs-repo: boshspecs-master
       image: golang
-      file: boshspecs-master/ci/run-test.yml
+      file: boshspecs-master/pipeline/ci/run-test.yml
 
 
 
