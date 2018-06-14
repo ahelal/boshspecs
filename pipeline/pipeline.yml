@@ -1,0 +1,30 @@
+---
+
+resources:
+  - name: boshspecs-master
+    type: git
+    source:
+      uri: https://github.com/ahelal/boshspecs.git
+      branch: master
+
+  - name: golang
+    type: docker-image
+    source:
+      repository: golang
+      tag: "1.9"
+
+jobs:
+  - name: run-tests
+    plan:
+    - get: boshspecs-master
+      trigger: true
+    - get: golang
+
+    - task: run-test
+      input_mapping:
+        boshspecs-repo: boshspecs-master
+      image: golang
+      file: boshspecs-master/ci/run-test.yml
+
+
+
