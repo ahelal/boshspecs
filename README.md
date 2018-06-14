@@ -1,6 +1,6 @@
 # BoshSpecs
 
-[![Build Status](https://travis-ci.org/ahelal/boshspecs.svg?branch=master)](https://travis-ci.org/ahelal/boshspecs)
+[![Build Status](https://wings.pivotal.io/api/v1/teams/pcf-solutions-emea/pipelines/boshspecs/jobs/run-tests/badge)](https://wings.pivotal.io/teams/pcf-solutions-emea/pipelines/boshspecs)
 
 **WARNING** *this is a POC, miles away to be production ready.*
 
