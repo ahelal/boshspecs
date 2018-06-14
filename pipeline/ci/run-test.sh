@@ -2,6 +2,8 @@
 
 set -eu
 
+export PATH=$GOPATH/bin:$PATH
+
 mkdir -p /go/src/github.com/ahelal/ || echo "OK" 
 
 ln -fs $(pwd) /go/src/github.com/ahelal/boshspecs
