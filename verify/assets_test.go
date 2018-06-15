@@ -23,7 +23,7 @@ var _ = Describe("assets", func() {
 	Describe("checkAssetNeedDownloading", func() {
 		Context("when no file exist", func() {
 			BeforeEach(func() {
-				expectedDownload = path.Join(common.GetCWD(), ".boshSpecs/assets/test")
+				expectedDownload = path.Join(common.GetCWD(), ".boshspecs/assets/test")
 				baseDownloadPath = path.Join(common.GetCWD())
 				testAsset = testverifiers.Asset{}
 				testAsset.FileName = "test"
@@ -39,7 +39,7 @@ var _ = Describe("assets", func() {
 		Context("when file exist, but shaSum does not match", func() {
 			BeforeEach(func() {
 				baseDownloadPath = "/tmp/" + testhelpers.RandStringBytes(20)
-				joinedDownloadPath := path.Join(baseDownloadPath, ".boshSpecs/assets")
+				joinedDownloadPath := path.Join(baseDownloadPath, ".boshspecs/assets")
 				if err := os.MkdirAll(joinedDownloadPath, os.FileMode(755)); err != nil {
 					log.Fatal(err)
 				}
@@ -64,7 +64,7 @@ var _ = Describe("assets", func() {
 		Context("when file exist and shaSum matches", func() {
 			BeforeEach(func() {
 				baseDownloadPath = "/tmp/" + testhelpers.RandStringBytes(20)
-				joinedDownloadPath := path.Join(baseDownloadPath, ".boshSpecs/assets")
+				joinedDownloadPath := path.Join(baseDownloadPath, ".boshspecs/assets")
 				if err := os.MkdirAll(joinedDownloadPath, os.FileMode(0777)); err != nil {
 					log.Fatal(err)
 				}

@@ -15,8 +15,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const remoteTestPath = "/var/vcap/boshSpecs/test"
-const remoteAssetPath = "/var/vcap/boshSpecs/assets"
+const remoteTestPath = "/var/vcap/boshspecs/test"
+const remoteAssetPath = "/var/vcap/boshspecs/assets"
 
 func verifierRemote(mConfig config.MergedConfig, tv testverifiers.TestVerifier, tvParams testverifiers.TestVerifierParams) error {
 	var stdoutBuf, stderrBuf bytes.Buffer

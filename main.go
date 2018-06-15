@@ -22,8 +22,10 @@ func dieOnError(err error, msg string) {
 }
 
 func main() {
+	absPath, err := os.Getwd()
+	dieOnError(err, "")
 
-	err := config.InitializeDir()
+	err = config.InitializeDir(absPath)
 	dieOnError(err, "")
 	setupLogging()
 	app := initApp()
@@ -32,7 +34,7 @@ func main() {
 }
 
 func setupLogging() {
-	logPath, err := filepath.Abs(path.Join(config.DirMain, "boshSpecs.log"))
+	logPath, err := filepath.Abs(path.Join(config.DirMain, "boshspecs.log"))
 	dieOnError(err, "")
 	file, err := os.OpenFile(logPath, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 	dieOnError(err, "")

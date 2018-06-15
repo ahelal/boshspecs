@@ -13,9 +13,6 @@ func bootsequence(c *cli.Context) (config.Config, error) {
 	if err != nil {
 		return config.Config{}, fmt.Errorf("failed to init config file %s", err.Error())
 	}
-	if err := config.InitializeDir(); err != nil {
-		return config.Config{}, err
-	}
 	return specsConfig, nil
 }
 
