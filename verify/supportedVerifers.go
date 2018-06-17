@@ -5,9 +5,9 @@ import (
 	"strings"
 
 	"github.com/ahelal/boshspecs/testverifiers"
-	gossVerifier "github.com/ahelal/boshspecs/testverifiers/gossverifier"
-	inSpecVerifier "github.com/ahelal/boshspecs/testverifiers/inspecverifier"
-	shellVerifier "github.com/ahelal/boshspecs/testverifiers/shellverifier"
+	gossverifier "github.com/ahelal/boshspecs/testverifiers/gossverifier"
+	inspecverifier "github.com/ahelal/boshspecs/testverifiers/inspecverifier"
+	shellverifier "github.com/ahelal/boshspecs/testverifiers/shellverifier"
 )
 
 type assetsType []map[string]string
@@ -15,11 +15,11 @@ type assetsType []map[string]string
 func getTestVerifier(verifierName string, verifierType string) (testverifiers.TestVerifier, error) {
 	switch strings.ToLower(verifierType) {
 	case "shell":
-		return shellVerifier.ShellTestVerifier{}, nil
+		return shellverifier.ShellTestVerifier{}, nil
 	case "goss":
-		return gossVerifier.GossTestVerifier{}, nil
+		return gossverifier.GossTestVerifier{}, nil
 	case "inspec":
-		return inSpecVerifier.InSpecTestVerifier{}, nil
+		return inspecverifier.InSpecTestVerifier{}, nil
 	}
 	return nil, fmt.Errorf("Unknown test verifier '%s' defined with '%s'", verifierType, verifierName)
 }

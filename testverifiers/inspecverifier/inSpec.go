@@ -6,7 +6,7 @@ import (
 	"log"
 	"text/template"
 
-	. "github.com/ahelal/boshspecs/testverifiers"
+	tVerifiers "github.com/ahelal/boshspecs/testverifiers"
 )
 
 // SHA256:
@@ -26,7 +26,7 @@ func (i InSpecTestVerifier) Name() string {
 }
 
 //ValidateConfig spec config
-func (i InSpecTestVerifier) ValidateConfig(tvParams *TestVerifierParams) error {
+func (i InSpecTestVerifier) ValidateConfig(tvParams *tVerifiers.TestVerifierParams) error {
 	// Check platform
 	if tvParams.Platform.OS != "linux" && tvParams.Platform.Arch != "amd64" {
 		return fmt.Errorf("%s-%s not support by inSpec verifier", tvParams.Platform.OS, tvParams.Platform.Arch)
@@ -35,8 +35,8 @@ func (i InSpecTestVerifier) ValidateConfig(tvParams *TestVerifierParams) error {
 }
 
 // CheckAssets returns required assets
-func (i InSpecTestVerifier) CheckAssets(tv *TestVerifierParams) []Asset {
-	return []Asset{Asset{
+func (i InSpecTestVerifier) CheckAssets(tv *tVerifiers.TestVerifierParams) []tVerifiers.Asset {
+	return []tVerifiers.Asset{tVerifiers.Asset{
 		Description:   "InSpec install binary",
 		DownloadURL:   url,
 		Sha256Sum:     shaSum,
@@ -50,10 +50,10 @@ func (i InSpecTestVerifier) CheckAssets(tv *TestVerifierParams) []Asset {
 }
 
 //GenerateRunScript generate the shell script that will run the tests
-func (i InSpecTestVerifier) GenerateRunScript(tvParams *TestVerifierParams, _ string) (string, error) {
+func (i InSpecTestVerifier) GenerateRunScript(tvParams *tVerifiers.TestVerifierParams, _ string) (string, error) {
 	var renderedTemplate bytes.Buffer
 	templateStruct := struct {
-		TvParams TestVerifierParams
+		TvParams tVerifiers.TestVerifierParams
 	}{*tvParams}
 	t := template.Must(template.New("runScript").Parse(inSpecRunScript))
 

@@ -11,6 +11,7 @@ pushd /go/src/github.com/ahelal/boshspecs
 
 make clean
 make deps
+make lint
 make test
 
 popd

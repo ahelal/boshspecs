@@ -6,7 +6,7 @@ import (
 	"log"
 	"text/template"
 
-	. "github.com/ahelal/boshspecs/testverifiers"
+	tVerifiers "github.com/ahelal/boshspecs/testverifiers"
 )
 
 const verifierName = "shell"
@@ -21,7 +21,7 @@ func (s ShellTestVerifier) Name() string {
 }
 
 //ValidateConfig spec config
-func (s ShellTestVerifier) ValidateConfig(tv *TestVerifierParams) error {
+func (s ShellTestVerifier) ValidateConfig(tv *tVerifiers.TestVerifierParams) error {
 	// Check platform
 	if tv.Platform.OS != "linux" && tv.Platform.Arch != "amd64" {
 		return fmt.Errorf("%s-%s not support by %s", tv.Platform.OS, tv.Platform.Arch, verifierName)
@@ -30,17 +30,17 @@ func (s ShellTestVerifier) ValidateConfig(tv *TestVerifierParams) error {
 }
 
 // CheckAssets Returns required assets
-func (s ShellTestVerifier) CheckAssets(tv *TestVerifierParams) []Asset {
+func (s ShellTestVerifier) CheckAssets(tv *tVerifiers.TestVerifierParams) []tVerifiers.Asset {
 	// No assets required for shell verifier
 	return nil
 }
 
 //GenerateRunScript w
-func (s ShellTestVerifier) GenerateRunScript(tvParams *TestVerifierParams, _ string) (string, error) {
+func (s ShellTestVerifier) GenerateRunScript(tvParams *tVerifiers.TestVerifierParams, _ string) (string, error) {
 	var renderedTemplate bytes.Buffer
 
 	templateStruct := struct {
-		TvParams TestVerifierParams
+		TvParams tVerifiers.TestVerifierParams
 	}{*tvParams}
 	t := template.Must(template.New("runScript").Parse(shellRunScriptTemplate))
 

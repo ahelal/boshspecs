@@ -7,7 +7,7 @@ import (
 	"text/template"
 
 	"github.com/ahelal/boshspecs/config"
-	. "github.com/ahelal/boshspecs/testverifiers"
+	tVerifiers "github.com/ahelal/boshspecs/testverifiers"
 )
 
 const url = "https://github.com/aelsabbahy/goss/releases/download/v0.3.5/goss-linux-amd64"
@@ -24,7 +24,7 @@ func (g GossTestVerifier) Name() string {
 }
 
 //ValidateConfig spec config
-func (g GossTestVerifier) ValidateConfig(tvParams *TestVerifierParams) error {
+func (g GossTestVerifier) ValidateConfig(tvParams *tVerifiers.TestVerifierParams) error {
 	// Check platform
 	if tvParams.Platform.OS != "linux" && tvParams.Platform.Arch != "amd64" {
 		return fmt.Errorf("%s-%s not support by goss verifier", tvParams.Platform.OS, tvParams.Platform.Arch)
@@ -38,8 +38,8 @@ func (g GossTestVerifier) ValidateConfig(tvParams *TestVerifierParams) error {
 }
 
 // CheckAssets Returns required assets
-func (g GossTestVerifier) CheckAssets(tv *TestVerifierParams) []Asset {
-	return []Asset{Asset{
+func (g GossTestVerifier) CheckAssets(tv *tVerifiers.TestVerifierParams) []tVerifiers.Asset {
+	return []tVerifiers.Asset{tVerifiers.Asset{
 		Description: "goss static binary",
 		DownloadURL: url,
 		Sha256Sum:   shaSum,
@@ -51,10 +51,10 @@ func (g GossTestVerifier) CheckAssets(tv *TestVerifierParams) []Asset {
 }
 
 //GenerateRunScript generate the shell script that will run the tests
-func (g GossTestVerifier) GenerateRunScript(tvParams *TestVerifierParams, _ string) (string, error) {
+func (g GossTestVerifier) GenerateRunScript(tvParams *tVerifiers.TestVerifierParams, _ string) (string, error) {
 	var renderedTemplate bytes.Buffer
 	templateStruct := struct {
-		TvParams TestVerifierParams
+		TvParams tVerifiers.TestVerifierParams
 	}{*tvParams}
 	t := template.Must(template.New("runScript").Parse(gossRunScript))
 
