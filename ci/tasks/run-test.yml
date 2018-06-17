@@ -11,5 +11,5 @@ inputs:
 - name: boshspecs-repo
 
 run:
-  path: pipeline/ci/run-test.sh
+  path: ci/tasks/run-test.sh
   dir: boshspecs-repo
