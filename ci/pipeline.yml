@@ -1,4 +1,17 @@
 ---
+groups:
+- name: Master
+  jobs:
+  - run-tests-master
+- name: Pull-request
+  jobs:
+  - run-tests-pr
+
+resource_types:
+  - name: pull-request
+    type: docker-image
+    source:
+      repository: jtarchie/pr
 
 resources:
   - name: boshspecs-master
@@ -13,8 +26,15 @@ resources:
       repository: golang
       tag: "1.9"
 
+  - name : boshspecs-pr
+    type : pull-request
+    source :
+    #   access_token: ((github_token))
+      repo : ahelal/boshspecs
+      disable_forks: true
+    #   uri         : https://github.com/ahelal/boshspecs
 jobs:
-  - name: run-tests
+  - name: run-tests-master
     plan:
     - get: boshspecs-master
       trigger: true
@@ -26,5 +46,15 @@ jobs:
       image: golang
       file: boshspecs-master/ci/tasks/run-test.yml
 
+  - name: run-tests-pr
+    plan:
+    - get: boshspecs-pr
+      version: every
+      trigger: true
+    - get: golang
 
-
+    - task: run-test
+      input_mapping:
+        boshspecs-repo: boshspecs-pr
+      image: golang
+      file: boshspecs-pr/ci/tasks/run-test.yml
