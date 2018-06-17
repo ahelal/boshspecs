@@ -1,7 +1,9 @@
 package config
 
 import (
-	"path/filepath"
+	"os"
+	"os/user"
+	"path"
 
 	"github.com/ahelal/boshspecs/common"
 )
@@ -9,24 +11,48 @@ import (
 //TODO change from const to function tat retrieves abs path
 
 //DirMain main boshspecs dir
-const DirMain = ".boshspecs"
+func DirMain() (string, error) {
+	return getAbsPath(".boshspecs")
+}
 
 //DirAssets assets directory
-const DirAssets = ".boshspecs/assets"
+func DirAssets() (string, error) {
+	return getAbsPath(".boshspecs/assets")
+}
 
 //DirTMP tmp files dir
-const DirTMP = ".boshspecs/tmp"
+func DirTMP() (string, error) {
+	return getAbsPath(".boshspecs/tmp")
+}
 
-//DirTest test path dir
-const DirTest = "test"
+//DirTest tmp files dir
+func DirTest() (string, error) {
+	CWDdir, err := os.Getwd()
+	if err != nil {
+		return "", nil
+	}
+	return path.Join(CWDdir, "test"), nil
+}
 
 //InitializeDir create directories
-func InitializeDir(basePath string) error {
-	for _, path := range []string{DirMain, DirTest, DirTMP, DirAssets} {
-		dirToCreate := filepath.Join(basePath, path)
-		if err := common.CreateDir(dirToCreate, ""); err != nil {
+func InitializeDir() error {
+	dirs := []func() (string, error){DirMain, DirTest, DirTMP, DirAssets}
+	for _, dir := range dirs {
+		path, err := dir()
+		if err != nil {
+			return err
+		}
+		if err := common.CreateDir(path, ""); err != nil {
 			return err
 		}
 	}
 	return nil
+}
+
+func getAbsPath(dirName string) (string, error) {
+	cUser, err := user.Current()
+	if err != nil {
+		return "", err
+	}
+	return path.Join(cUser.HomeDir, dirName), nil
 }

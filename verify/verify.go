@@ -99,7 +99,11 @@ func expandTestPath(mConfig config.MergedConfig) (string, error) {
 	trimmedPath := strings.Trim(mConfig.ConfSpec.Path, " ")
 
 	if len(trimmedPath) == 0 {
-		basePath := filepath.Join(config.DirTest, mConfig.ConfSpec.Name)
+		dirAsset, err := config.DirTest()
+		if err != nil {
+			return "", err
+		}
+		basePath := filepath.Join(dirAsset, mConfig.ConfSpec.Name)
 		return filepath.Abs(basePath)
 	}
 	if filepath.IsAbs(trimmedPath) {
@@ -110,7 +114,11 @@ func expandTestPath(mConfig config.MergedConfig) (string, error) {
 }
 
 func createTmpDir(specName string) (string, error) {
-	dirPath, err := ioutil.TempDir(config.DirTMP, specName)
+	dirTmp, err := config.DirTMP()
+	if err != nil {
+		return "", err
+	}
+	dirPath, err := ioutil.TempDir(dirTmp, specName)
 	if err != nil {
 		return "", nil
 	}

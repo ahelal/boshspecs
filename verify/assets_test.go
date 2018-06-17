@@ -23,10 +23,10 @@ var _ = Describe("assets", func() {
 	Describe("checkAssetNeedDownloading", func() {
 		Context("when no file exist", func() {
 			BeforeEach(func() {
-				expectedDownload = path.Join(common.GetCWD(), ".boshspecs/assets/test")
-				baseDownloadPath = path.Join(common.GetCWD())
+				expectedDownload = path.Join(common.GetCWD(), ".boshspecs/assets/testAssetFile")
+				baseDownloadPath = path.Join(common.GetCWD(), ".boshspecs/assets/")
 				testAsset = testverifiers.Asset{}
-				testAsset.FileName = "test"
+				testAsset.FileName = "testAssetFile"
 				testAsset.Sha256Sum = "XXXX"
 			})
 			It("should return downladed required and the correct download path", func() {
@@ -39,16 +39,17 @@ var _ = Describe("assets", func() {
 		Context("when file exist, but shaSum does not match", func() {
 			BeforeEach(func() {
 				baseDownloadPath = "/tmp/" + testhelpers.RandStringBytes(20)
-				joinedDownloadPath := path.Join(baseDownloadPath, ".boshspecs/assets")
-				if err := os.MkdirAll(joinedDownloadPath, os.FileMode(755)); err != nil {
+				baseDownloadPath = path.Join(baseDownloadPath, ".boshspecs/assets")
+				if err := os.MkdirAll(baseDownloadPath, os.FileMode(755)); err != nil {
 					log.Fatal(err)
 				}
-				expectedDownload = path.Join(joinedDownloadPath, "test")
+				expectedDownload = path.Join(baseDownloadPath, "testAssetFile")
+
 				if err := testhelpers.WriteFile(expectedDownload, []byte("XX")); err != nil {
 					log.Fatal(err)
 				}
 				testAsset = testverifiers.Asset{}
-				testAsset.FileName = "test"
+				testAsset.FileName = "testAssetFile"
 				testAsset.Sha256Sum = "XXXX"
 			})
 			It("should return downladed required and the correct download path", func() {
@@ -64,11 +65,11 @@ var _ = Describe("assets", func() {
 		Context("when file exist and shaSum matches", func() {
 			BeforeEach(func() {
 				baseDownloadPath = "/tmp/" + testhelpers.RandStringBytes(20)
-				joinedDownloadPath := path.Join(baseDownloadPath, ".boshspecs/assets")
-				if err := os.MkdirAll(joinedDownloadPath, os.FileMode(0777)); err != nil {
+				baseDownloadPath = path.Join(baseDownloadPath, ".boshspecs/assets")
+				if err := os.MkdirAll(baseDownloadPath, os.FileMode(0777)); err != nil {
 					log.Fatal(err)
 				}
-				expectedDownload = path.Join(joinedDownloadPath, "test")
+				expectedDownload = path.Join(baseDownloadPath, "test")
 				if err := testhelpers.WriteFile(expectedDownload, []byte(content)); err != nil {
 					log.Fatal(err)
 				}

@@ -10,10 +10,11 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+var homeDir string
 var tmpDir string
 var err error
 
-func dirExisits(path string) bool {
+func dirExists(path string) bool {
 	if _, err := os.Stat("/path/to/whatever"); err == nil {
 		return true
 	}
@@ -27,18 +28,21 @@ var _ = Describe("Config", func() {
 			if err != nil {
 				log.Fatal(err)
 			}
+			homeDir = os.Getenv("HOME")
+			os.Setenv("HOME", tmpDir)
 		})
 		Context("when boshspecs boot ", func() {
 			It("should create meta directory", func() {
-				Expect(InitializeDir(tmpDir)).To(BeNil())
-				Expect(dirExisits(filepath.Join(tmpDir, ".boshspec"))).To(BeTrue())
-				Expect(dirExisits(filepath.Join(tmpDir, ".boshspec/assets"))).To(BeTrue())
-				Expect(dirExisits(filepath.Join(tmpDir, ".boshspec/tmp"))).To(BeTrue())
-				Expect(dirExisits(filepath.Join(tmpDir, "test"))).To(BeTrue())
+				Expect(InitializeDir()).To(BeNil())
+				Expect(dirExists(filepath.Join(tmpDir, ".boshspec"))).To(BeTrue())
+				Expect(dirExists(filepath.Join(tmpDir, ".boshspec/assets"))).To(BeTrue())
+				Expect(dirExists(filepath.Join(tmpDir, ".boshspec/tmp"))).To(BeTrue())
+				Expect(dirExists(filepath.Join(tmpDir, "test"))).To(BeTrue())
 			})
 		})
 		AfterEach(func() {
 			os.RemoveAll(tmpDir)
+			os.Setenv("HOME", homeDir)
 		})
 	})
 })

@@ -11,8 +11,12 @@ import (
 
 // DownloadAssets this will download assets if needed for the verifier
 func DownloadAssets(assets []testverifiers.Asset, testVerifier testverifiers.TestVerifier) error {
+	dirAsset, err := config.DirAssets()
+	if err != nil {
+		return err
+	}
 	for _, asset := range assets {
-		if download, downloadPath := checkAssetNeedDownloading(testVerifier.Name(), common.GetCWD(), asset); download {
+		if download, downloadPath := checkAssetNeedDownloading(testVerifier.Name(), dirAsset, asset); download {
 			if err := common.DownloadFromURL(asset.DownloadURL, downloadPath); err != nil {
 				return err
 			}
@@ -21,8 +25,8 @@ func DownloadAssets(assets []testverifiers.Asset, testVerifier testverifiers.Tes
 	return nil
 }
 
-func checkAssetNeedDownloading(verifierName string, basePath string, asset testverifiers.Asset) (bool, string) {
-	downloadPath := path.Join(basePath, config.DirAssets, asset.FileName)
+func checkAssetNeedDownloading(verifierName string, assetDir string, asset testverifiers.Asset) (bool, string) {
+	downloadPath := path.Join(assetDir, asset.FileName)
 	if !common.PathExists(downloadPath) {
 		log.Debugf("Asset for %s/%s not found, Download needed", verifierName, asset.FileName)
 		return true, downloadPath

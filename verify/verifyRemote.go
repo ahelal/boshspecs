@@ -47,8 +47,12 @@ func verifierRemote(mConfig config.MergedConfig, tv testverifiers.TestVerifier, 
 	}
 
 	tarGZfileName := path.Base(tvParams.TmpDir) + ".tgz"
-	tarGzPath := path.Join(config.DirTMP, tarGZfileName)
-	log.Debugf("tgz %s to %s", tvParams.TmpDir, tarGzPath)
+	dirTmp, err := config.DirTMP()
+	if err != nil {
+		return err
+	}
+	tarGzPath := path.Join(dirTmp, tarGZfileName)
+	log.Debugf("tar gunziping '%s' to '%s'", tvParams.TmpDir, tarGzPath)
 	if err := archiver.TarGz.Make(tarGzPath, []string{tvParams.TmpDir}); err != nil {
 		return err
 	}
@@ -71,21 +75,26 @@ func verifierRemote(mConfig config.MergedConfig, tv testverifiers.TestVerifier, 
 	log.Debugf("untar and execute control script")
 	unTarcmd := fmt.Sprintf("tar xf %s/%s -C %s --strip-components=1 && /bin/sh %s/%s", remoteTestPath, tarGZfileName, remoteTestPath, remoteTestPath, controlScriptName)
 	remoteCMD.Command = unTarcmd
-	err = verifyboshSSHCommand(remoteCMD, &stdoutBuf, &stderrBuf, tvParams.Verbose)
+	err = verifyboshSSHCommand(remoteCMD, &stdoutBuf, &stderrBuf, false)
 	assetsNeeded, extractErr := extractAssetsDownloadIfAny(&stdoutBuf)
 	if err != nil && len(assetsNeeded) == 0 {
 		if !tvParams.Verbose {
 		}
 		return fmt.Errorf("%s. %s", extractErr, err)
 	}
-
+	//tvParams.Verbose
 	if len(assetsNeeded) > 0 {
+		log.Debugln("Assets are required %v", assetsNeeded)
 		for _, assetNeeded := range assetsNeeded {
 			i := getAssetURL(assetNeeded, tvParams.Assets)
 			if i == -1 {
 				return fmt.Errorf("Unknown asset to download %s", assetNeeded)
 			}
-			rscp.Source = path.Join(config.DirAssets, tvParams.Assets[i].FileName)
+			dirAsset, err := config.DirAssets()
+			if err != nil {
+				return err
+			}
+			rscp.Source = path.Join(dirAsset, tvParams.Assets[i].FileName)
 			rscp.Dest = remoteAssetPath
 			if err := verifyboshSCPCommand(rscp, &stdoutBuf, &stderrBuf); err != nil {
 				return err
