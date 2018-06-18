@@ -7,8 +7,6 @@ import (
 	"github.com/ahelal/boshspecs/common"
 )
 
-//TODO change from const to function tat retrieves abs path
-
 //DirMain main boshspecs dir
 func DirMain() (string, error) {
 	return getAbsPath(".boshspecs")
