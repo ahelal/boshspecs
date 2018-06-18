@@ -2,7 +2,6 @@ package config
 
 import (
 	"os"
-	"os/user"
 	"path"
 
 	"github.com/ahelal/boshspecs/common"
@@ -50,9 +49,22 @@ func InitializeDir() error {
 }
 
 func getAbsPath(dirName string) (string, error) {
-	cUser, err := user.Current()
-	if err != nil {
-		return "", err
+	var homeDir string
+	// cUser, err := user.Current()
+	// if err != nil {
+	// 	return "", err
+	// }
+	// homeDir := cUser.HomeDir
+
+	// Use directly $HOME for now since cUser.HomeDir checks /etc/passwd
+	homeDir = os.Getenv("HOME")
+	if len(homeDir) == 0 {
+		cwd, err := os.Getwd()
+		if err != nil {
+			return "", err
+		}
+		homeDir = cwd
+
 	}
-	return path.Join(cUser.HomeDir, dirName), nil
+	return path.Join(homeDir, dirName), nil
 }

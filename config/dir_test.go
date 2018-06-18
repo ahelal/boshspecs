@@ -15,34 +15,47 @@ var tmpDir string
 var err error
 
 func dirExists(path string) bool {
-	if _, err := os.Stat("/path/to/whatever"); err == nil {
+	if _, err := os.Stat(path); err == nil {
 		return true
 	}
 	return false
 }
 
+func cwd() string {
+	cwdPath, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return cwdPath
+}
+
 var _ = Describe("Config", func() {
+	BeforeSuite(func() {
+		homeDir = os.Getenv("HOME")
+		tmpDir, err = ioutil.TempDir("", "boshspecsX123ss")
+		if err != nil {
+			log.Fatal(err)
+		}
+	})
 	Describe("initialize directory", func() {
-		BeforeEach(func() {
-			tmpDir, err = ioutil.TempDir("", "boshspec")
-			if err != nil {
-				log.Fatal(err)
-			}
-			homeDir = os.Getenv("HOME")
-			os.Setenv("HOME", tmpDir)
-		})
 		Context("when boshspecs boot ", func() {
 			It("should create meta directory", func() {
+				os.Setenv("HOME", tmpDir)
 				Expect(InitializeDir()).To(BeNil())
-				Expect(dirExists(filepath.Join(tmpDir, ".boshspec"))).To(BeTrue())
-				Expect(dirExists(filepath.Join(tmpDir, ".boshspec/assets"))).To(BeTrue())
-				Expect(dirExists(filepath.Join(tmpDir, ".boshspec/tmp"))).To(BeTrue())
-				Expect(dirExists(filepath.Join(tmpDir, "test"))).To(BeTrue())
+			})
+			It("should have a .boshspec directory", func() {
+				Expect(dirExists(filepath.Join(tmpDir, ".boshspecs"))).To(BeTrue())
+			})
+			It("should have a .boshspecs/assets directory", func() {
+				Expect(dirExists(filepath.Join(tmpDir, ".boshspecs/assets"))).To(BeTrue())
+			})
+			It("should have a ./test directory", func() {
+				Expect(dirExists(filepath.Join(cwd(), "test"))).To(BeTrue())
 			})
 		})
-		AfterEach(func() {
-			os.RemoveAll(tmpDir)
-			os.Setenv("HOME", homeDir)
-		})
+	})
+	AfterSuite(func() {
+		os.RemoveAll(tmpDir)
+		os.Setenv("HOME", homeDir)
 	})
 })
