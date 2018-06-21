@@ -2,10 +2,12 @@
 groups:
 - name: Master
   jobs:
-  - run-tests-master
+  - master-test
+  - master-lint
 - name: Pull-request
   jobs:
-  - run-tests-pr
+  - pr-test
+  - pr-lint
 
 resource_types:
   - name: pull-request
@@ -29,24 +31,37 @@ resources:
   - name : boshspecs-pr
     type : pull-request
     source :
-    #   access_token: ((github_token))
+      access_token: ((github_token))
       repo : ahelal/boshspecs
       disable_forks: true
-    #   uri         : https://github.com/ahelal/boshspecs
+
 jobs:
-  - name: run-tests-master
+  - name: master-test
     plan:
     - get: boshspecs-master
       trigger: true
     - get: golang
 
-    - task: run-test
+    - task: test
       input_mapping:
         boshspecs-repo: boshspecs-master
       image: golang
       file: boshspecs-master/ci/tasks/run-test.yml
 
-  - name: run-tests-pr
+  - name: master-lint
+    plan:
+    - get: boshspecs-master
+      trigger: true
+    - get: golang
+
+    - task: lint
+      input_mapping:
+        boshspecs-repo: boshspecs-master
+      image: golang
+      file: boshspecs-master/ci/tasks/run-lint.yml
+
+
+  - name: pr-test
     plan:
     - get: boshspecs-pr
       version: every
@@ -58,3 +73,16 @@ jobs:
         boshspecs-repo: boshspecs-pr
       image: golang
       file: boshspecs-pr/ci/tasks/run-test.yml
+
+  - name: pr-lint
+    plan:
+    - get: boshspecs-pr
+      version: every
+      trigger: true
+    - get: golang
+
+    - task: lint
+      input_mapping:
+        boshspecs-repo: boshspecs-pr
+      image: golang
+      file: boshspecs-pr/ci/tasks/run-lint.yml

@@ -14,5 +14,5 @@ caches:
   - path: vendor-concourse
 
 run:
-  path: ci/tasks/run-test.sh
+  path: ci/tasks/run-lint.sh
   dir: boshspecs-repo

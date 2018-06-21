@@ -15,5 +15,5 @@ cp -r "${VENDOR_CONCOURSE}"/. vendor/
 make deps
 cp -r vendor/. "${VENDOR_CONCOURSE}"
 
-make test
+make lint
 popd

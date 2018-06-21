@@ -3,3 +3,4 @@
 boshspecs
 dist
 vendor
+ci/vars.yml
