@@ -32,7 +32,7 @@ specs:
       path: /somewhere
       sudo: true
       filters:
-          instance_groups: YY
+          instance_group: YY
           instances: [1]
 `
 

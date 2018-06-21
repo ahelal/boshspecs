@@ -38,7 +38,7 @@ More to come if needed.
 
 ## simple example
 
-You will need to create `.boshspecs.yml`  
+You will need to create `boshspecs.yml`  
 
 ```yaml
 bosh:
@@ -130,7 +130,7 @@ GLOBAL OPTIONS:
    --verbose, -v             Be more verbose.
    --no-color, --nc          don't use color.
    --debug, -d               Enable debug mode.
-   --config value, -c value  Config file. (default: ".boshspecs.yml")
+   --config value, -c value  Config file. (default: "boshspecs.yml")
    --help, -h                show help
    --version                 print BoshSpecs version
 ```

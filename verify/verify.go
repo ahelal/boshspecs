@@ -1,7 +1,6 @@
 package verify
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -19,7 +18,7 @@ func Verify(mConfig config.MergedConfig, verbose bool, noColor bool) error {
 		return err
 	}
 
-	tvParams.TmpDir, err = createTmpDir(mConfig.ConfSpec.Name)
+	tvParams.TmpDir, err = createTestTmpDir()
 	if err != nil {
 		return err
 	}
@@ -99,7 +98,11 @@ func expandTestPath(mConfig config.MergedConfig) (string, error) {
 	trimmedPath := strings.Trim(mConfig.ConfSpec.Path, " ")
 
 	if len(trimmedPath) == 0 {
-		basePath := filepath.Join(config.DirTest, mConfig.ConfSpec.Name)
+		dirAsset, err := config.DirTest()
+		if err != nil {
+			return "", err
+		}
+		basePath := filepath.Join(dirAsset, mConfig.ConfSpec.Name)
 		return filepath.Abs(basePath)
 	}
 	if filepath.IsAbs(trimmedPath) {
@@ -109,11 +112,14 @@ func expandTestPath(mConfig config.MergedConfig) (string, error) {
 	return filepath.Abs(mConfig.ConfSpec.Path)
 }
 
-func createTmpDir(specName string) (string, error) {
-	dirPath, err := ioutil.TempDir(config.DirTMP, specName)
+//createTestTmpDir to store tests
+func createTestTmpDir() (string, error) {
+	dirPath, err := common.CreateTmpDir()
 	if err != nil {
-		return "", nil
+		return "", err
 	}
-	common.CreateDir(dirPath, "/test")
+	if err = common.CreateDir(dirPath, "/test"); err != nil {
+		return "", err
+	}
 	return dirPath, nil
 }

@@ -48,7 +48,7 @@ func verifyCommand(c *cli.Context) error {
 		common.Info("I>", "Verifying "+mConfig.ConfSpec.Name)
 		err := verify.Verify(mConfig, c.GlobalBool("verbose"), c.GlobalBool("no-color"))
 		if err != nil {
-			common.Info("X>", "Failed to verify "+mConfig.ConfSpec.Name)
+			common.Info("X>", "Failed to verify "+mConfig.ConfSpec.Name+" : "+err.Error())
 			atLeastOneError = true
 		} else {
 			common.Info(":>", "Verified "+mConfig.ConfSpec.Name)

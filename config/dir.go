@@ -1,35 +1,63 @@
 package config
 
 import (
-	"path/filepath"
+	"os"
+	"path"
 
 	"github.com/ahelal/boshspecs/common"
 )
 
-//TODO change from const to function tat retrieves abs path
-
 //DirMain main boshspecs dir
-const DirMain = ".boshSpecs"
+func DirMain() (string, error) {
+	return getAbsPath(".boshspecs")
+}
 
 //DirAssets assets directory
-const DirAssets = ".boshSpecs/assets"
+func DirAssets() (string, error) {
+	return getAbsPath(".boshspecs/assets")
+}
 
-//DirTMP tmp files dir
-const DirTMP = ".boshSpecs/tmp"
-
-//DirTest test path dir
-const DirTest = "test"
+//DirTest test files dir
+func DirTest() (string, error) {
+	CWDdir, err := os.Getwd()
+	if err != nil {
+		return "", nil
+	}
+	return path.Join(CWDdir, "test"), nil
+}
 
 //InitializeDir create directories
 func InitializeDir() error {
-	for _, path := range []string{DirMain, DirTest, DirTMP, DirAssets} {
-		absPath, err := filepath.Abs(path)
+	dirs := []func() (string, error){DirMain, DirTest, DirAssets}
+	for _, dir := range dirs {
+		path, err := dir()
 		if err != nil {
 			return err
 		}
-		if err := common.CreateDir(absPath, ""); err != nil {
+		if err := common.CreateDir(path, ""); err != nil {
 			return err
 		}
 	}
 	return nil
+}
+
+func getAbsPath(dirName string) (string, error) {
+	var homeDir string
+	// cUser, err := user.Current()
+	// if err != nil {
+	// 	return "", err
+	// }
+	// homeDir := cUser.HomeDir
+
+	// Use directly $HOME for now since cUser.HomeDir checks /etc/passwd
+	homeDir = os.Getenv("HOME")
+	if len(homeDir) == 0 {
+		cwd, err := os.Getwd()
+		if err != nil {
+			return "", err
+		}
+		homeDir = cwd
+
+	}
+	return path.Join(homeDir, dirName), nil
 }

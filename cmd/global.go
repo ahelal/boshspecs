@@ -25,7 +25,7 @@ func NewGlobalFlags() []cli.Flag {
 		cli.StringFlag{
 			Name:   "config, c",
 			Usage:  "Config file.",
-			Value:  ".boshspecs.yml",
+			Value:  "boshspecs.yml",
 			EnvVar: "",
 		},
 	}
