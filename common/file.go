@@ -114,9 +114,10 @@ func IsDir(dirPath string) (bool, error) {
 //CopyToDir src path to dest path
 func CopyToDir(src string, destDir string) error {
 	log.Debugf("Copy src '%s' to '%s'", src, destDir)
-	if err := otiai.Copy(src, destDir); err != nil {
-		return err
-	}
+	return otiai.Copy(src, destDir)
+}
 
-	return nil
+//CreateTmpDir wrapper around ioutil since i am lazy
+func CreateTmpDir() (string, error) {
+	return ioutil.TempDir("", "boshSpecs")
 }

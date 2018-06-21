@@ -1,7 +1,6 @@
 package verify
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -19,7 +18,7 @@ func Verify(mConfig config.MergedConfig, verbose bool, noColor bool) error {
 		return err
 	}
 
-	tvParams.TmpDir, err = createTmpDir(mConfig.ConfSpec.Name)
+	tvParams.TmpDir, err = createTestTmpDir()
 	if err != nil {
 		return err
 	}
@@ -113,15 +112,14 @@ func expandTestPath(mConfig config.MergedConfig) (string, error) {
 	return filepath.Abs(mConfig.ConfSpec.Path)
 }
 
-func createTmpDir(specName string) (string, error) {
-	dirTmp, err := config.DirTMP()
+//createTestTmpDir to store tests
+func createTestTmpDir() (string, error) {
+	dirPath, err := common.CreateTmpDir()
 	if err != nil {
 		return "", err
 	}
-	dirPath, err := ioutil.TempDir(dirTmp, specName)
-	if err != nil {
-		return "", nil
+	if err = common.CreateDir(dirPath, "/test"); err != nil {
+		return "", err
 	}
-	common.CreateDir(dirPath, "/test")
 	return dirPath, nil
 }

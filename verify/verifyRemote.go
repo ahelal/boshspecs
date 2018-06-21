@@ -47,7 +47,7 @@ func verifierRemote(mConfig config.MergedConfig, tv testverifiers.TestVerifier, 
 	}
 
 	tarGZfileName := path.Base(tvParams.TmpDir) + ".tgz"
-	dirTmp, err := config.DirTMP()
+	dirTmp, err := common.CreateTmpDir()
 	if err != nil {
 		return err
 	}

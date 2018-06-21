@@ -17,12 +17,7 @@ func DirAssets() (string, error) {
 	return getAbsPath(".boshspecs/assets")
 }
 
-//DirTMP tmp files dir
-func DirTMP() (string, error) {
-	return getAbsPath(".boshspecs/tmp")
-}
-
-//DirTest tmp files dir
+//DirTest test files dir
 func DirTest() (string, error) {
 	CWDdir, err := os.Getwd()
 	if err != nil {
@@ -33,7 +28,7 @@ func DirTest() (string, error) {
 
 //InitializeDir create directories
 func InitializeDir() error {
-	dirs := []func() (string, error){DirMain, DirTest, DirTMP, DirAssets}
+	dirs := []func() (string, error){DirMain, DirTest, DirAssets}
 	for _, dir := range dirs {
 		path, err := dir()
 		if err != nil {
