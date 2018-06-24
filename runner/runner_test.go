@@ -12,6 +12,7 @@ import (
 
 const failedScript = `
 #!/bin/bash0
+sleep 1
 echo "STDOUT"
 >&2 echo "STDERR"
 exit 1
@@ -19,6 +20,7 @@ exit 1
 
 const workingScriptOne = `
 #!/bin/bash
+sleep 1
 echo "ARG1=${1}"
 >&2 echo "ENV1=${ENV1}"
 exit 0
@@ -26,7 +28,8 @@ exit 0
 
 const workingScriptMulti = `
 #!/bin/bash
-echo "ARG1=${1}"
+sleep 1
+echo "ARG1=${ENV1}"
 >&2 echo "ENV1=${ENV1} ENV2=${ENV2}"
 exit 0
 `
@@ -87,7 +90,7 @@ var _ = Describe("Runner", func() {
 			It("should retrun no errors and correct strings in stdout/stderr", func() {
 				err := LocalExec("/bin/sh", tmpPath, "ENV1=1,ENV2=2", false, false, &stdoutBuf, &stderrBuf)
 				Expect(err).To(BeNil())
-				Expect(stdoutBuf.String()).To(Equal("ARG1=\n"))
+				Expect(stdoutBuf.String()).To(Equal("ARG1=1\n"))
 				Expect(stderrBuf.String()).To(Equal("ENV1=1 ENV2=2\n"))
 			})
 			AfterEach(func() {
