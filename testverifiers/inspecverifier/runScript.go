@@ -2,9 +2,20 @@ package inspecverifier
 
 const inSpecRunScript = `{{ .TvParams.RunScriptHelper }}
 
-assetPath={{ .TvParams.RemoteAssetPath }}
-testSpec="${testDirPath}/*_spec.rb"
+FOUND=""
+# assetPath="{{ .TvParams.RemoteAssetPath }}"
+# testSpec="${testDirPath}/*.rb"
+specGlob="*_spec.rb"
 assetBin=inspec
+
+INSPEC_YAML="
+name: boshspec-default
+title: default profile
+version: 0.1.0
+depends:
+  - name: inspec-bosh
+    url: https://github.com/ahelal/inspec-bosh/archive/master.tar.gz
+"
 
 inSpecColor="{{.TvParams.NoColor}}"
 if [ "${inSpecColor}" = "false" ]; then
@@ -13,24 +24,38 @@ else
    inSpecColor="--no-color"
 fi
 
-for FILE in ${testSpec}; do
-    FOUND="FOUND"
+# Create the controls dir
+mkdir -p "${testDirPath}/controls"
+
+# Find might be problamtic have a look at https://github.com/koalaman/shellcheck/wiki/SC2044
+for f in $(find ${testDirPath} -maxdepth 1 -name ${specGlob}); do
+	FOUND="FOUND"
+	echo "Moving ${f}" to "${testDirPath}/controls" 
+	mv "${f}" "${testDirPath}/controls"
 done
+
+if [ -d "${testDirPath}/controls" ]; then
+	for f in $(find ${testDirPath}/controls -name ${specGlob}); do
+		FOUND="$f"
+	done
+fi
+
+# Manage inspec.yml
+if [ -f "${testDirPath}/inspec.yml" ]; then
+	FOUND="FOUND"
+else
+	echo "creating default ${testDirPath}/inspec.yml"
+	echo "${INSPEC_YAML}" > "${testDirPath}/inspec.yml"
+fi
 
 if [ "${FOUND}x" = "x" ]; then
-	echo "No _spec.rb files found in ${testDirPath} exiting without error"
+	echo "No ${specGlob} files found in ${testDirPath} exiting without error"
 	exit 0
+else 
+	echo "Found rb files will run tests in ${testDirPath}"
 fi
 
-FAILED=
-for FILE in ${testDirPath}; do
-	if ! ${SUDO} ${assetBin} exec "${FILE}" ${inSpecColor}; then
-		FAILED=TRUE
-	fi
-done
+${SUDO} ${assetBin} exec "${testDirPath}" ${inSpecColor}
 
-if ! [ "${FAILED}x" = "x" ]; then
-	exit 1
-fi
 exit 0
 `
