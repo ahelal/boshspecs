@@ -78,9 +78,10 @@ func verifierRemote(mConfig config.MergedConfig, tv testverifiers.TestVerifier, 
 	err = verifyboshSSHCommand(remoteCMD, &stdoutBuf, &stderrBuf, false)
 	assetsNeeded, extractErr := extractAssetsDownloadIfAny(&stdoutBuf)
 	if err != nil && len(assetsNeeded) == 0 {
-		if !tvParams.Verbose {
-		}
 		return fmt.Errorf("%s. %s", extractErr, err)
+	}
+	if tvParams.Verbose && err == nil {
+		fmt.Println(stdoutBuf.String(), stderrBuf.String())
 	}
 	//tvParams.Verbose
 	if len(assetsNeeded) > 0 {

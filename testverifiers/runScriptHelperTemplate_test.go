@@ -54,7 +54,23 @@ var _ = Describe("verify", func() {
 				Expect(tmp).To(ContainSubstring("SUDO=\n"))
 			})
 		})
-
+		Context("when custom environment is set", func() {
+			BeforeEach(func() {
+				envs := make(map[string]string)
+				envs["ENV1"] = "one"
+				envs["ENV2"] = "two"
+				envs["ENV3"] = "three"
+				testTvParams = TestVerifierParams{}
+				testTvParams.CSpec = config.CSpec{Envs: envs}
+			})
+			It("should return a render the template and export set", func() {
+				tmp, err := RenderRunScriptHelperTemplate(&testTvParams)
+				Expect(err).To(BeNil())
+				Expect(tmp).To(ContainSubstring("export ENV1=one\n"))
+				Expect(tmp).To(ContainSubstring("export ENV2=two\n"))
+				Expect(tmp).To(ContainSubstring("export ENV3=three\n"))
+			})
+		})
 	})
 
 })

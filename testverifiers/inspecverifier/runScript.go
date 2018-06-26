@@ -3,8 +3,14 @@ package inspecverifier
 const inSpecRunScript = `{{ .TvParams.RunScriptHelper }}
 
 FOUND=""
-# assetPath="{{ .TvParams.RemoteAssetPath }}"
-# testSpec="${testDirPath}/*.rb"
+
+# If running locally copy test folders before doing anything
+{{ if .TvParams.CSpec.LocalExec }}
+tmpDir=$(mktemp -d)
+cp -r ${testDirPath}/. ${tmpDir}
+testDirPath="${tmpDir}"
+{{ end }}
+
 specGlob="*_spec.rb"
 assetBin=inspec
 

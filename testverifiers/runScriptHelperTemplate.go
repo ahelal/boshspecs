@@ -33,7 +33,7 @@ exitMSG(){
 	if [ "${status_code}" = "0" ]; then
 		echo "*** ${SPECNAME} reported no error. ${msg}"
 	else
-		echo "XXX ${SPECNAME} reported at least one error. ${msg}"
+		echo "*** ${SPECNAME} reported at least one error. ${msg}"
 	fi
 	echo ""
 	exit ${status_code}
@@ -55,6 +55,10 @@ if ! [ -d ${testDirPath} ]; then
 	exitMSG 1 "${testDirPath} is not a valid test directory."
 fi
 
+# Custom environment
+{{ range $key, $value := .TvParams.CSpec.Envs }}
+export {{ $key }}={{ $value }}
+{{ end }}
 `
 
 //RenderRunScriptHelperTemplate render the helper script

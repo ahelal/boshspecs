@@ -32,11 +32,12 @@ type CInstanceFilters struct {
 
 // CSpec specs that will run
 type CSpec struct {
-	Name      string           `yaml:"name"`
-	SpecType  string           `yaml:"type"`
-	Path      string           `yaml:"path"`
-	LocalExec bool             `yaml:"local_exec"`
-	Sudo      bool             `yaml:"sudo"`
-	Filters   CInstanceFilters `yaml:"filters"`
-	Params    interface{}      `yaml:"params"`
+	Name      string            `yaml:"name"`
+	SpecType  string            `yaml:"type"`
+	Path      string            `yaml:"path"`
+	LocalExec bool              `yaml:"local_exec"`
+	Sudo      bool              `yaml:"sudo"`
+	Filters   CInstanceFilters  `yaml:"filters"`
+	Envs      map[string]string `yaml:"envs"`
+	Params    interface{}       `yaml:"params"`
 }

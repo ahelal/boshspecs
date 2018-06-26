@@ -36,6 +36,30 @@ specs:
           instances: [1]
 `
 
+const fullConfig = `
+bosh:
+  - name: "boshGCP"
+    environment: x.x.x.x
+    client: admin
+    client-secret: pass
+    ca-cert: test/deployments/ca_ingore.txt
+deployments:
+  - name: SimpleSingle
+specs:
+    - name: localShell
+      type: shell
+      local_exec: true
+      path: /somewhere
+      sudo: true
+      envs:
+          ENV1: "one"
+          ENV2: "two"
+          ENV3: "three"
+      filters:
+          instance_group: YY
+          instances: [1]
+`
+
 var testConfig string
 var testCBosh CBosh
 var testCDeployment CDeployment
@@ -132,7 +156,7 @@ var _ = Describe("Config", func() {
 
 		Context("when config has all supported options", func() {
 			BeforeEach(func() {
-				tmpPath = testhelpers.WriteTmpFilecontent([]byte(simpleConfig))
+				tmpPath = testhelpers.WriteTmpFilecontent([]byte(fullConfig))
 				testCBosh = CBosh{
 					Name:         "boshGCP",
 					Environment:  "x.x.x.x",
@@ -151,6 +175,11 @@ var _ = Describe("Config", func() {
 					Filters: CInstanceFilters{
 						InstanceGroup: "YY",
 						Instances:     []string{"1"},
+					},
+					Envs: map[string]string{
+						"ENV1": "one",
+						"ENV2": "two",
+						"ENV3": "three",
 					},
 					Params: nil,
 					// Params: struct {
