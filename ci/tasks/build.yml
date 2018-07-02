@@ -1,0 +1,21 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: golang
+    tag: "1.9"
+
+inputs:
+- name: boshspecs-repo
+
+outputs:
+- name: boshspecs-linux
+
+caches:
+  - path: vendor-concourse
+
+run:
+  path: ci/tasks/build.sh
+  dir: boshspecs-repo
