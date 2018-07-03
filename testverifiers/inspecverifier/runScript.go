@@ -6,6 +6,7 @@ FOUND=""
 
 # If running locally copy test folders before doing anything
 {{ if .TvParams.CSpec.LocalExec }}
+echo "Running localexec inspec"
 tmpDir=$(mktemp -d)
 cp -r ${testDirPath}/. ${tmpDir}
 testDirPath="${tmpDir}"
@@ -34,7 +35,7 @@ fi
 mkdir -p "${testDirPath}/controls"
 
 # Find might be problamtic have a look at https://github.com/koalaman/shellcheck/wiki/SC2044
-for f in $(find ${testDirPath} -maxdepth 1 -name ${specGlob}); do
+for f in $(find ${testDirPath} -maxdepth 1 -name '*_spec.rb'); do
 	FOUND="FOUND"
 	echo "Moving ${f}" to "${testDirPath}/controls" 
 	mv "${f}" "${testDirPath}/controls"
