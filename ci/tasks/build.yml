@@ -11,7 +11,7 @@ inputs:
 - name: boshspecs-repo
 
 outputs:
-- name: boshspecs-linux
+- name: boshspecs-build
 
 caches:
   - path: vendor-concourse

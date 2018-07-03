@@ -21,3 +21,5 @@ make build
 popd
 
 cp dist/boshspecs ../boshspecs-build
+
+exit 0
