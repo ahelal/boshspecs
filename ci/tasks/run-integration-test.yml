@@ -12,4 +12,4 @@ inputs:
 - name: build-bucket
 
 run:
-  path: ci/tasks/run-integration-test.sh
+  path: boshspecs-repo/ci/tasks/run-integration-test.sh
