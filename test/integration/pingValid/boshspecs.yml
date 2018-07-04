@@ -1,0 +1,13 @@
+bosh:
+  - name: bbl-bosh-gcp
+    client: admin
+    environment: https://10.0.0.6:25555
+    client-secret: zvzg7zv9q578wnoxth0r
+
+
+deployments:
+  - name: dont_care
+specs:
+  - name: dont_care
+    type: inspec
+
