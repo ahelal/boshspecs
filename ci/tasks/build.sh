@@ -20,6 +20,6 @@ make build
 GP_ID=$(git config --get pullrequest.id)
 popd
 
-cp dist/boshspecs "../boshspecs-build/boshspecs.${GP_ID}"
+cp dist/boshspecs "../boshspecs-build/boshspecs-${GP_ID}.0"
 
 exit 0
