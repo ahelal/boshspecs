@@ -17,9 +17,9 @@ cp -r vendor/. "${VENDOR_CONCOURSE}"
 
 export BUILD_ONLY_DEFAULT="YES"
 make build
-
+GP_ID=$(git config --get pullrequest.id)
 popd
 
-cp dist/boshspecs ../boshspecs-build
+cp dist/boshspecs "../boshspecs-build/boshspecs.${GP_ID}"
 
 exit 0
